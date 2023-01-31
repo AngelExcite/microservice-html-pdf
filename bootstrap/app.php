@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 (new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
     dirname(__DIR__)
@@ -23,7 +23,7 @@ $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
 
-// $app->withFacades();
+$app->withFacades();
 
 // $app->withEloquent();
 
@@ -90,7 +90,11 @@ $app->configure('app');
 | totally optional, so you are not required to uncomment this line.
 |
 */
+//class_alias('Barryvdh\Snappy\Facades\SnappyPdf', 'PDF');
+$app->register(Barryvdh\Snappy\LumenServiceProvider::class);
 
+class_alias(Barryvdh\Snappy\Facades\SnappyPdf::class, 'PDF');
+class_alias(Barryvdh\Snappy\Facades\SnappyImage::class, 'SnappyImage');
 // $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
@@ -109,7 +113,8 @@ $app->configure('app');
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
 ], function ($router) {
-    require __DIR__.'/../routes/web.php';
+    require __DIR__ . '/../routes/web.php';
 });
+
 
 return $app;
