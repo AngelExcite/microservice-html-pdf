@@ -18,4 +18,4 @@ $router->get('/', function () use ($router) {
 });
 
 
-$router->post('/api', 'ConvertController@store');
+$router->post('/api', 'PdfController@htmlToPdf');

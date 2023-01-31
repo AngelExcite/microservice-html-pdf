@@ -4,19 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\App;
+use Knp\Snappy\Pdf;
 
-class ConvertController extends Controller
+class PdfController extends Controller
 {
-    public function store(Request $request)
+    public function htmlToPdf(Request $request)
     {
-        $snappy = App::make('snappy.pdf');
-        //To file
-        // get body
+        //$snappy = App::make('snappy.pdf');
+
+        $projectDirectory = base_path();
+
+        $snappy = new Pdf($projectDirectory . '/vendor/h4cc/wkhtmltopdf-amd64/bin/wkhtmltopdf-amd64');
         $html = $request->getContent();
-        //$snappy->generateFromHtml($html, '/tmp/bill-123.pdf');
-        //$snappy->generate('http://www.github.com', '/tmp/github.pdf');
-        //Or output:
         return new Response(
             $snappy->getOutputFromHtml($html),
             200,
@@ -25,7 +24,5 @@ class ConvertController extends Controller
                 'Content-Disposition'   => 'attachment; filename="file.pdf"'
             )
         );
-
-        //return json_encode($request->all());
     }
 }
